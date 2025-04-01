@@ -33,3 +33,13 @@ let ``generated tuples contain positive ints``() =
         |> Arb.mapFilter id (fun (i, s) -> i > 0 && s.Length > 0)
 
     Prop.forAll tuples (fun (i, s) -> i > 0 && s.Length > 0)
+
+[<Property>]
+let ``generated classes instance contain positive ints``() =
+
+    let classInstances =
+        ArbMap.defaults
+        |> ArbMap.arbitrary<AClass>
+        |> Arb.mapFilter id (fun c -> c.I > 0)
+
+    Prop.forAll classInstances (fun c -> c.I > 0)
