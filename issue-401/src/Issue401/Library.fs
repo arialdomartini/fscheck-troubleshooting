@@ -1,4 +1,4 @@
 ﻿namespace Issue401.Library
 
-type ARecord = { AString: string; AnInt: int }
-type AUnionType = AUnionType of int
+type internal ARecord = { AString: string; AnInt: int }
+type internal AUnionType = internal AUnionType of int
