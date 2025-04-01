@@ -1,8 +1,25 @@
 ﻿module Tests
 
+open FsCheck.FSharp
 open FsCheck.Xunit
-open Swensen.Unquote
+open Issue401.Library
 
 [<Property>]
-let ``always green`` () =
-    test <@ true = true @>
+let ``generated records contain positive ints and not empty strings``() =
+
+    let records =
+        ArbMap.defaults
+        |> ArbMap.arbitrary<ARecord>
+        |> Arb.mapFilter id (fun r -> r.AnInt > 0 && r.AString.Length > 0)
+
+    Prop.forAll records (fun aRecord -> aRecord.AnInt > 0 && aRecord.AString.Length > 0)
+
+[<Property>]
+let ``generated union types contain positive ints``() =
+
+    let unionTypes =
+        ArbMap.defaults
+        |> ArbMap.arbitrary<AUnionType>
+        |> Arb.mapFilter id (fun (AUnionType v) -> v > 0)
+
+    Prop.forAll unionTypes (fun (AUnionType v) -> v > 0)

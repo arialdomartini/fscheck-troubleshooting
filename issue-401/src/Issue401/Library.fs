@@ -1,5 +1,4 @@
-﻿namespace Issue401
+﻿namespace Issue401.Library
 
-module Say =
-    let hello name =
-        printfn "Hello %s" name
+type ARecord = { AString: string; AnInt: int }
+type AUnionType = AUnionType of int
