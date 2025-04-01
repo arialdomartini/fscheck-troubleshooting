@@ -23,3 +23,13 @@ let ``generated union types contain positive ints``() =
         |> Arb.mapFilter id (fun (AUnionType v) -> v > 0)
 
     Prop.forAll unionTypes (fun (AUnionType v) -> v > 0)
+
+[<Property>]
+let ``generated tuples contain positive ints``() =
+
+    let tuples =
+        ArbMap.defaults
+        |> ArbMap.arbitrary<ATuple>
+        |> Arb.mapFilter id (fun (i, s) -> i > 0 && s.Length > 0)
+
+    Prop.forAll tuples (fun (i, s) -> i > 0 && s.Length > 0)
